@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rc-pagination-item:not(.rc-pagination-item-active) {
+    color: white;
+}
+
+/* CSS cho số trong các nút phân trang chưa được chọn */
+.rc-pagination-item:not(.rc-pagination-item-active) a {
+    color: white;
+}
+
+.rc-pagination-item:not(.rc-pagination-item-active) a:hover {
+    color: #1890ff;
+}
