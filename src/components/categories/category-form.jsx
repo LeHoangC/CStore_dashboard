@@ -1,5 +1,5 @@
 import React from 'react'
-import Description from '../ui/description'
+import Description from '../ui/Description'
 import Input from '../ui/Input'
 import Card from '../common/Card'
 import { useForm } from 'react-hook-form'
