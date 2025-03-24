@@ -123,17 +123,11 @@ const CategoryPage = () => {
                                                 </Link>
                                             </button>
                                             {cate.isActive ? (
-                                                <button
-                                                    className="text-indigo-400 hover:text-indigo-300 mr-2"
-                                                    onClick={() => openModal(cate._id, 'lock')}
-                                                >
+                                                <button className="text-indigo-400 hover:text-indigo-300 mr-2">
                                                     <LockKeyholeOpen size={18} />
                                                 </button>
                                             ) : (
-                                                <button
-                                                    className="text-red-400 hover:text-red-300 mr-2"
-                                                    onClick={() => openModal(cate._id, 'unlock')}
-                                                >
+                                                <button className="text-red-400 hover:text-red-300 mr-2">
                                                     <LockKeyhole size={18} />
                                                 </button>
                                             )}
