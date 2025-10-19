@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
-import { useUsers } from '../../hooks/useUser'
 import { useEffect } from 'react'
 import Pagination from '../ui/pagination'
 import { Trash2 } from 'lucide-react'
 import { CircleCheckBig } from 'lucide-react'
 import { CircleX } from 'lucide-react'
+import { useUsers } from '../../data/user'
 
 const UsersTable = () => {
     const [page, setPage] = useState(1)

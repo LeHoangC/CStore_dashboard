@@ -3,13 +3,12 @@ import SettingSection from './SettingSection'
 import Card from '../common/Card'
 import FileInput from '../ui/File-input'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { useBanners, useUpdateBannerMutation } from '../../hooks/useSetting'
 import { useEffect } from 'react'
 import Input from '../ui/Input'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import { useBanners, useUpdateBannerMutation } from '../../data/settings'
 
 const bannerSchema = yup.object().shape({
     banners: yup.array().of(

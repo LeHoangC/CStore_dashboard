@@ -1,13 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { User, Lock } from 'lucide-react'
-import { authApi } from '../../services/api'
 import { useAuthStore } from '../../store/authStore'
+import { authApi } from '../../data/authentication'
 
 const LoginForm = ({ isOpen, onClose, onLoginSuccess }) => {
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        email: 'admin',
+        password: 'admin',
     })
 
     const { login } = useAuthStore()

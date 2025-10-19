@@ -1,18 +1,5 @@
 import axios from 'axios';
-import { QueryClient } from '@tanstack/react-query';
-import { API_ENDPOINT } from '../data/api-endpoint';
 import { useAuthStore } from '../store/authStore';
-
-export const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnWindowFocus: true,
-            staleTime: 60000, // 1 phút
-            cacheTime: 600000, // 10 phút
-            retry: 1,
-        },
-    },
-});
 
 const API_URL = '/api'; // Có thể thay đổi base URL tùy môi trường
 
@@ -24,7 +11,7 @@ const PUBLIC_ENDPOINTS = [
 ];
 
 // Tạo instance axios
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: API_URL,
     timeout: 10000,
     headers: {
@@ -126,7 +113,7 @@ axiosInstance.interceptors.response.use(
             } catch (err) {
                 processQueue(err, null);
                 isRefreshing = false;
-                window.location.href = '/'
+                // window.location.href = '/'
 
                 return Promise.reject(err);
             }
@@ -135,75 +122,3 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error.response?.data || error);
     }
 );
-
-// Auth Service
-export const authApi = {
-    login: (credentials) => axiosInstance.post('/auth/login', credentials),
-    register: (userData) => axiosInstance.post('/auth/register', userData),
-    logout: () => axiosInstance.post('/auth/logout'),
-    refreshToken: (token) => axiosInstance.post('/auth/refreshToken', { refreshToken: token }),
-    forgotPassword: (email) => axiosInstance.post('/auth/forgot-password', { email })
-};
-
-// Products Service
-export const productsApi = {
-    getAll: (page, searchTerm) => {
-        const params = { page, limit: 5, isAdmin: true }
-        if (searchTerm) {
-            params['search'] = searchTerm
-        }
-        return axiosInstance.get('/products', { params })
-    },
-    getBySlug: (slug) => axiosInstance.get(`/products/${slug}`),
-    create: (product) => axiosInstance.post('/products', product),
-    update: ({ id, ...product }) => axiosInstance.patch(`/products/${id}`, product),
-
-    publish: (id) => axiosInstance.post(`/products/publish/${id}`),
-    unpublish: (id) => axiosInstance.post(`/products/unpublish/${id}`),
-
-    analytic: () => axiosInstance.get(API_ENDPOINT.ANALYTIC_PRODUCTS)
-};
-
-// Categories Service
-export const categoriesApi = {
-    getAll: () => axiosInstance.get(API_ENDPOINT.CATEGORIES),
-    getById: (id) => axiosInstance.get(`categories/${id}`),
-    delete: (id) => axiosInstance.delete(`categories/${id}`),
-    create: (cate) => axiosInstance.post('/categories', cate),
-    update: ({ id, ...input }) => axiosInstance.patch(`/categories/${id}`, input)
-};
-
-// Users Service
-export const usersApi = {
-    getAll: (page, search) => {
-        const params = { page }
-        if (search) {
-            params['search'] = search
-        }
-        return axiosInstance.get('/users', { params })
-    },
-    getById: (id) => axiosInstance.get(`/users/${id}`),
-    update: (id, user) => axiosInstance.put(`/users/${id}`, user),
-    delete: (id) => axiosInstance.delete(`/users/${id}`)
-};
-
-//Order Service
-export const ordersApi = {
-    getAllOrder: (page, searchTerm) => {
-        const params = { page }
-        if (searchTerm) {
-            params['search'] = searchTerm
-        }
-        return axiosInstance.get('/orders', { params })
-    },
-    analytic: () => axiosInstance.get(API_ENDPOINT.ANALYTIC_ORDER)
-}
-
-export const settings = {
-    getBanners: () => axiosInstance.get(`${API_ENDPOINT.SETTING}/banners`),
-    updateBanner: (banners) => axiosInstance.post(`${API_ENDPOINT.SETTING}/update-banners`, banners)
-}
-
-export const invalidateQueries = (queryKey) => {
-    return queryClient.invalidateQueries(queryKey);
-};

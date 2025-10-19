@@ -24,7 +24,7 @@ function Uploader({
         formData.append('attachment', file)
 
         try {
-            const response = await fetch('http://localhost:3000/api/attachments', {
+            const response = await fetch('/api/attachments', {
                 method: 'POST',
                 body: formData,
             })
@@ -86,13 +86,13 @@ function Uploader({
     }
 
     return (
-        <div className="w-full mx-auto p-4">
+        <div className="w-full mx-auto p-2">
             <div
                 {...getRootProps()}
                 className={`
-          p-6 border-2 border-dashed rounded-lg text-center cursor-pointer
-          ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-500'}
-        `}
+                    p-6 border-2 border-dashed rounded-lg text-center cursor-pointer
+                    ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-500'}
+                `}
             >
                 <input {...getInputProps()} />
                 {isDragActive ? (
@@ -123,7 +123,7 @@ function Uploader({
                     </div>
                 </div>
             )}
-            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+            {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
         </div>
     )
 }

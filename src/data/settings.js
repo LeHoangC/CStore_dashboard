@@ -1,7 +1,13 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { settings, invalidateQueries } from '../services/api';
-import { API_ENDPOINT } from '../data/api-endpoint';
-import { toast } from 'react-toastify';
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { API_ENDPOINT } from "./api-endpoint";
+import { axiosInstance } from "../configs/axios.config";
+import { invalidateQueries } from "../configs/react-query.config";
+
+const settings = {
+    getBanners: () => axiosInstance.get(`${API_ENDPOINT.SETTING}/banners`),
+    updateBanner: (banners) => axiosInstance.post(`${API_ENDPOINT.SETTING}/update-banners`, banners)
+}
 
 export const useBanners = (id) => {
     return useQuery({

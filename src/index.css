@@ -14,3 +14,22 @@
 .rc-pagination-item:not(.rc-pagination-item-active) a:hover {
     color: #1890ff;
 }
+
+/* Tùy chỉnh thanh cuộn cho Chrome, Safari */
+.notification-popup::-webkit-scrollbar {
+    width: 8px; /* Chiều rộng thanh cuộn */
+}
+
+.notification-popup::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Màu nền của track */
+    border-radius: 10px; /* Bo góc track */
+}
+
+.notification-popup::-webkit-scrollbar-thumb {
+    background: #888; /* Màu của thumb */
+    border-radius: 10px; /* Bo góc thumb */
+}
+
+.notification-popup::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Màu khi hover */
+}

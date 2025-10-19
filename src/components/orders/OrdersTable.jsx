@@ -2,19 +2,24 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Eye } from 'lucide-react'
 import moment from 'moment'
-import { useOrders } from '../../hooks/useOrder'
+import * as XLSX from 'xlsx'
 import Pagination from '../ui/pagination'
 import { FormatPrice } from '../../utils/use-price'
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ORDER_STATUS } from '../../constants'
+import { useOrders } from '../../data/order'
 
 moment.locale('vi')
 
 const OrdersTable = () => {
+    const navigate = useNavigate()
+
     const [page, setPage] = useState(1)
     const [searchTerm, setSearchTerm] = useState('')
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm)
 
-    const { data: { data: orders = [], pagination = {}, orderDistribution = {} } = {} } = useOrders(
+    const { data: { data: orders = [], pagination = {}, orderDistribution = {} } = {}, refetch } = useOrders(
         page,
         debouncedSearchTerm
     )
@@ -29,6 +34,52 @@ const OrdersTable = () => {
         }
     }, [searchTerm])
 
+    const exportToExcel = () => {
+        const dataExport = []
+        const merges = []
+        let currentRow = 1
+
+        orders.forEach((order) => {
+            const productCount = order.order_product.length
+
+            order.order_product.forEach((product, index) => {
+                const orderData = {
+                    'Mã đơn hàng': index === 0 ? order.order_trackingNumber : '',
+                    'Tên khách hàng': index === 0 ? order.order_user.user_name : '',
+                    'Địa chỉ': index === 0 ? order.order_shipping.address : '',
+                    'Trạng thái': index === 0 ? order.order_status : '',
+                    'Tổng tiền hàng': index === 0 ? order.order_checkout.totalCheckout : '',
+                    'Sản phẩm': product.product.name,
+                    'Số lượng': product.quantity,
+                    'Ngày đặt hàng': index === 0 ? moment(order.createdAt).format('HH:mm DD/MM/YYYY') : '',
+                }
+
+                dataExport.push(orderData)
+            })
+
+            if (productCount > 1) {
+                for (let i = 0; i <= 7; i++) {
+                    if ([0, 1, 2, 3, 4, 7].includes(i)) {
+                        merges.push({
+                            s: { r: currentRow, c: i },
+                            e: { r: currentRow + productCount - 1, c: i },
+                        })
+                    }
+                }
+            }
+        })
+
+        const worksheet = XLSX.utils.json_to_sheet(dataExport)
+
+        worksheet['!merges'] = merges
+
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Orders')
+
+        const fileName = `orders_${moment().format('YYYYMMDD')}.xlsx`
+        XLSX.writeFile(workbook, fileName)
+    }
+
     return (
         <motion.div
             className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
@@ -38,6 +89,12 @@ const OrdersTable = () => {
         >
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold text-gray-100">Danh sách đơn hàng</h2>
+                <button
+                    className="px-4 py-2 text-sm font-medium text-gray-200 hover:text-white bg-gray-700 hover:bg-gray-600 rounded-md transition-colors"
+                    onClick={exportToExcel}
+                >
+                    Xuất báo cáo
+                </button>
                 <div className="relative">
                     <input
                         type="text"
@@ -95,13 +152,8 @@ const OrdersTable = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                                     <span
                                         className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                            order.order_status === 'delivered'
-                                                ? 'bg-green-100 text-green-800'
-                                                : order.status === 'Processing'
-                                                ? 'bg-yellow-100 text-yellow-800'
-                                                : order.status === 'shipped'
-                                                ? 'bg-blue-100 text-blue-800'
-                                                : 'bg-red-100 text-red-800'
+                                            ORDER_STATUS.find((status) => status.value === order.order_status)?.color ||
+                                            'bg-gray-100 text-gray-800'
                                         }`}
                                     >
                                         {order.order_status}
@@ -111,7 +163,10 @@ const OrdersTable = () => {
                                     {moment(order.createdAt).format('HH:mm DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                                    <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+                                    <button
+                                        className="text-indigo-400 hover:text-indigo-300 mr-2"
+                                        onClick={() => navigate(`/orders/${order._id}`)}
+                                    >
                                         <Eye size={18} />
                                     </button>
                                 </td>

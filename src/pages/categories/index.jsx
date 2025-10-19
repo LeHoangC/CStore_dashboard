@@ -6,7 +6,7 @@ import { Search, Pencil, Trash2, LockKeyholeOpen, LockKeyhole } from 'lucide-rea
 import Header from '../../components/common/Header'
 import ConfirmModal from '../../components/ui/ConfirmModal'
 import useModal from '../../hooks/useModal'
-import { useCategories, useDeleteCategoryMutation } from '../../hooks/useCategory'
+import { useCategories, useDeleteCategoryMutation } from '../../data/category'
 
 const CategoryPage = () => {
     const { data } = useCategories()

@@ -1,8 +1,18 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { categoriesApi, invalidateQueries, queryClient } from '../services/api';
-import { API_ENDPOINT } from '../data/api-endpoint';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom'; // Thêm import này
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "../configs/axios.config";
+import { invalidateQueries } from "../configs/react-query.config";
+import { API_ENDPOINT } from "./api-endpoint";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+// Categories Service
+const categoriesApi = {
+    getAll: () => axiosInstance.get(API_ENDPOINT.CATEGORIES),
+    getById: (id) => axiosInstance.get(`${API_ENDPOINT.CATEGORIES}/${id}`),
+    delete: (id) => axiosInstance.delete(`${API_ENDPOINT.CATEGORIES}/${id}`),
+    create: (cate) => axiosInstance.post(`/${API_ENDPOINT.CATEGORIES}`, cate),
+    update: ({ id, ...input }) => axiosInstance.patch(`/${API_ENDPOINT.CATEGORIES}/${id}`, input)
+};
 
 
 export const useCategories = () => {

@@ -15,6 +15,7 @@ import EditProductPage from './pages/products/EditProductPage'
 import CategoryPage from './pages/categories'
 import CreateCategoryPage from './pages/categories/CreateCategoryPage'
 import EditCategoryPage from './pages/categories/EditCategoryPage'
+import OrderDetailPage from './pages/OrderDetails'
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/users" element={<UsersPage />} />
                 <Route path="/sales" element={<SalesPage />} />
                 <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/orders/:orderId" element={<OrderDetailPage />} />
                 <Route path="/analytics" element={<AnalyticsPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
             </Routes>

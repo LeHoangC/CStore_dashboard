@@ -18,13 +18,13 @@ const Input = forwardRef(
                         id={name}
                         placeholder={placeholder}
                         className={`
-            w-full rounded-md border border-gray-600 bg-[#1e293b] py-2.5 px-4
-            text-md text-gray-300 placeholder-gray-500
-            outline-none transition-all
-            focus:border-blue-500 focus:ring-1 focus:ring-blue-500
-            disabled:cursor-not-allowed disabled:opacity-75
-            ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
-          `}
+                            w-full rounded-md border border-gray-600 bg-[#1e293b] py-2.5 px-4
+                            text-md text-gray-300 placeholder-gray-500
+                            outline-none transition-all
+                            focus:border-blue-500 focus:ring-1 focus:ring-blue-500
+                            disabled:cursor-not-allowed disabled:opacity-75
+                            ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''}
+                        `}
                         {...rest}
                     />
                 </div>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import Header from '../../components/common/Header'
 import CreateOrUpdateProductForm from '../../components/products/product-form'
-import { useProduct } from '../../hooks/useProduct'
+import { useProduct } from '../../data/product'
 
 const EditProductPage = () => {
     const { slug } = useParams()

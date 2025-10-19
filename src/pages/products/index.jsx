@@ -7,13 +7,13 @@ import { AlertTriangle, Package, TrendingUp } from 'lucide-react'
 import CategoryDistributionChart from '../../components/overview/CategoryDistributionChart'
 import SalesTrendChart from '../../components/products/SalesTrendChart'
 import ProductsTable from '../../components/products/ProductsTable'
-import { useAnalytic } from '../../hooks/useProduct'
 import { Archive } from 'lucide-react'
+import { useAnalyticProduct } from '../../data/product'
 
 const ProductsPage = () => {
     const {
         data: { totalProducts = 0, totalProductDraft = 0, totalLowStockProducts = 0, categoryDistribution = [] } = {},
-    } = useAnalytic()
+    } = useAnalyticProduct()
 
     return (
         <div className="flex-1 overflow-auto relative z-10">

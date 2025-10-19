@@ -1,8 +1,27 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
-import { invalidateQueries, productsApi } from "../services/api"
-import { API_ENDPOINT } from "../data/api-endpoint"
-import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "../configs/axios.config";
+import { API_ENDPOINT } from "./api-endpoint";
+import { invalidateQueries } from "../configs/react-query.config";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const productsApi = {
+    getAll: (page, searchTerm) => {
+        const params = { page, limit: 5, isAdmin: true }
+        if (searchTerm) {
+            params['search'] = searchTerm
+        }
+        return axiosInstance.get('/products', { params })
+    },
+    getBySlug: (slug) => axiosInstance.get(`/${API_ENDPOINT.PRODUCTS}/${slug}`),
+    create: (product) => axiosInstance.post(API_ENDPOINT.PRODUCTS, product),
+    update: ({ id, ...product }) => axiosInstance.patch(`/${API_ENDPOINT.PRODUCTS}/${id}`, product),
+
+    publish: (id) => axiosInstance.post(`/${API_ENDPOINT.PRODUCTS}/publish/${id}`),
+    unpublish: (id) => axiosInstance.post(`/${API_ENDPOINT.PRODUCTS}/unpublish/${id}`),
+
+    analytic: () => axiosInstance.get(API_ENDPOINT.ANALYTIC_PRODUCTS)
+};
 
 export const useProducts = (page, searchTerm) => {
     return useQuery({
@@ -68,7 +87,7 @@ export const useUnPublishProductMutation = () => {
     })
 }
 
-export const useAnalytic = () => {
+export const useAnalyticProduct = () => {
     return useQuery({
         queryKey: [API_ENDPOINT.ANALYTIC_PRODUCTS],
         queryFn: productsApi.analytic,

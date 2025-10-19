@@ -6,11 +6,11 @@ import StatCard from '../components/common/StatCard'
 import DailyOrders from '../components/orders/DailyOrders'
 import OrderDistribution from '../components/orders/OrderDistribution'
 import OrdersTable from '../components/orders/OrdersTable'
-import { useAnalytic } from '../hooks/useOrder'
 import { FormatPrice } from '../utils/use-price'
+import { useAnalyticOrder } from '../data/order'
 
 const OrdersPage = () => {
-    const { data: { totalOrders, totalRevenue, dailyOrdersData = [], orderStatusData = [] } = {} } = useAnalytic()
+    const { data: { totalOrders, totalRevenue, dailyOrdersData = [], orderStatusData = [] } = {} } = useAnalyticOrder()
 
     const totalOrderPending = orderStatusData?.find((value) => value?.name === 'pending')?.value || 0
     const totalOrderCompleted = orderStatusData?.find((value) => value?.name === 'delivered')?.value || 0

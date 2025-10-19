@@ -3,8 +3,7 @@ import Description from '../ui/Description'
 import Input from '../ui/Input'
 import Card from '../common/Card'
 import { useForm } from 'react-hook-form'
-import { categoriesApi } from '../../services/api'
-import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../hooks/useCategory'
+import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../data/category'
 
 const CreateOrUpdateCategoryForm = ({ initialValue }) => {
     const {

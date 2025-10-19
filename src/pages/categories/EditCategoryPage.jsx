@@ -4,7 +4,7 @@ import Header from '../../components/common/Header'
 import { motion } from 'framer-motion'
 import StatCard from '../../components/common/StatCard'
 import CreateOrUpdateCategoryForm from '../../components/categories/category-form'
-import { useCategory } from '../../hooks/useCategory'
+import { useCategory } from '../../data/category'
 
 const EditCategoryPage = () => {
     const { id } = useParams()
